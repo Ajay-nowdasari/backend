@@ -4,6 +4,11 @@ from rest_framework.response import Response
 from .serializers import *
 from rest_framework import status
 from .models import *
+from rest_framework import generics
+from rest_framework.views import APIView
+from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework_simplejwt.authentication import JWTAuthentication
+
 @api_view(['GET'])
 def hello_world(request):
     return Response({'context': 'pani - ledu!'})
@@ -36,3 +41,30 @@ def login(request):
     members = Register.objects.all()
     serializer = RegisterSerializer(members,many=True)
     return Response(serializer.data,status= status.HTTP_200_OK) 
+
+
+class AdminLoginView(APIView):
+    def post(self, request):
+        serializer = AdminLoginSerializer(data=request.data)
+        if serializer.is_valid():
+            user = serializer.validated_data['user']
+
+            print(user.username,user.password)
+        
+           
+            refresh = RefreshToken.for_user(user)
+            refresh['username'] = user.username 
+            access_token = str(refresh.access_token)
+            refresh_token = str(refresh)
+
+            return Response({
+                "access_token": access_token,
+                "refresh_token": refresh_token
+            }, status=status.HTTP_200_OK)
+        
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+class StudentretriveView(generics.ListAPIView):
+    authentication_classes = [JWTAuthentication]
+    queryset = user.objects.all()
+    serializer_class = UserSerializer
