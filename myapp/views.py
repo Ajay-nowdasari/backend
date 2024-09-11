@@ -23,7 +23,7 @@ def user_create(request):
 
 @api_view(['GET'])
 def disp_tbl(request):
-    members = User.objects.all()  # Fetch all users
+    members = user.objects.all()  # Fetch all users
     serializer = UserSerializer(members, many=True)  # Serialize the queryset
     return Response(serializer.data, status=status.HTTP_200_OK)  # Return serialized data with HTTP 200 status
 
@@ -66,5 +66,5 @@ class AdminLoginView(APIView):
     
 class StudentretriveView(generics.ListAPIView):
     authentication_classes = [JWTAuthentication]
-    queryset = user.objects.all()
+    queryset = User.objects.all()
     serializer_class = UserSerializer

@@ -3,7 +3,7 @@ from .models import *
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
-        model = User
+        model = user
         fields = ['first_name','last_name','email','password']
 
 class RegisterSerializer(serializers.ModelSerializer):
@@ -40,5 +40,4 @@ class AdminLoginSerializer(serializers.Serializer):
                 raise serializers.ValidationError("Unable to log in with provided credentials.")
         else:
             raise serializers.ValidationError("Must include 'email' and 'password'.")
-
         return data
