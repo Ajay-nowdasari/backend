@@ -49,7 +49,6 @@ def todo_detail(request, pk):
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
-    
     elif request.method == 'PATCH':
         serializer = TodoItemSerializer(todo, data=request.data, partial=True)
         if serializer.is_valid():
