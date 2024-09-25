@@ -38,12 +38,6 @@ class AdminLoginSerializer(serializers.Serializer):
         else:
             raise serializers.ValidationError("Must include 'email' and 'password'.")
         return data
-    
-class Registration_prdt_serializer(serializers.ModelSerializer):
-    class Meta:
-        model = User_Registration_prdt
-        fields = ['first_name', 'last_name' , 'email' , 'password']
-
 
 class ProductUserSerializer(serializers.ModelSerializer):
     confirm_password = serializers.CharField(write_only=True)
@@ -75,8 +69,6 @@ class ProductUserSerializer(serializers.ModelSerializer):
             email=validated_data['email'],
             password=validated_data['password']
         )
-    
-        user.save()
         return user
     
 class ProductAdminSerializer(serializers.ModelSerializer):
@@ -89,7 +81,7 @@ class ProductAdminSerializer(serializers.ModelSerializer):
     def validate(self, attrs):
         
         if ProductUser.objects.filter(email=attrs['email']).exists():
-            raise serializers.ValidationError({"email_error": "A user with this email already exists."})
+            raise serializers.ValidationError({"email_error":["A user with this email already exists."]})
 
         
         if ProductUser.objects.filter(username=attrs['username']).exists():
@@ -130,7 +122,6 @@ class ProductLoginSerializer(serializers.Serializer):
                     print(f"Regular user: {data['user']}")
             else:
                 raise serializers.ValidationError("wrong password.")
-
         else:
             raise serializers.ValidationError("Must include 'email' and 'password'.")
 

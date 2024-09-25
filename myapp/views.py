@@ -162,8 +162,7 @@ class VerifyOTPView(APIView):
         try:
              OTP.objects.get(user=user, otp=otp)
         except OTP.DoesNotExist:
-            return Response({'error': 'Invalid OTP'}, status=status.HTTP_400_BAD_REQUEST)
-
+            return Response({'error': 'Indvalid OTP'}, status=status.HTTP_400_BAD_REQUEST)
         return Response({'success': 'OTP verified'}, status=status.HTTP_200_OK)
 
 

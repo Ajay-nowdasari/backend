@@ -16,24 +16,13 @@ class Register(models.Model):
     password = models.CharField(max_length=225)
 
     def __str__(self):
-        return f'{self.first_name} {self.last_name}'
-    
-class User_Registration_prdt(models.Model):
-    first_name = models.CharField(max_length=225)
-    last_name = models.CharField(max_length=225)
-    email = models.EmailField(max_length=225)
-    password = models.CharField(max_length = 20)
-
-    def __str__(self):
-        return f'{self.first_name}'
-    
+        return f'{self.first_name} {self.last_name}'  
     
 class ProductUser(models.Model):
     username=models.CharField(max_length=50)
     email = models.EmailField()
     password = models.CharField(max_length=50)
 
-    
     def __str__(self):
         return f"{self.username}"
 
@@ -41,6 +30,9 @@ class Product(models.Model):
     product=models.CharField(max_length=50)
     quality=models.IntegerField()
     quantity=models.IntegerField()
+        
+    def __str__(self):
+        return f"{self.product}"
 
 
 import random
@@ -56,5 +48,4 @@ class OTP(models.Model):
     def save(self):
         if not self.otp:
             self.otp = self.generate_otp()
-        super().save() 
-    
+        super().save()
